@@ -1,0 +1,22 @@
+<div class="container mt-4">
+    <h2>Liste des embauchés</h2>
+    @if (hiredResource.isLoading() == true) {
+    <div>
+        <p>Chargement...</p>
+    </div>
+    }
+    @else if (hiredResource.hasValue()) {
+    <ul class="list-group">
+        @for (cv of hiredResource.value(); track cv.id) {
+        <li class="list-group-item">
+            <ng-container>
+                {{ cv.firstname }} {{ cv.name }} - {{ cv.job }}
+            </ng-container>
+        </li>
+        } @empty {
+        <div>Aucun CV hired.</div>
+        }
+    </ul>
+    }
+
+</div>

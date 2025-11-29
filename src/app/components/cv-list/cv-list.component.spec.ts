@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AuthForm } from './auth-form';
+import { CvListComponent } from './cv-list.component';
 
-describe('AuthForm', () => {
-  let component: AuthForm;
-  let fixture: ComponentFixture<AuthForm>;
+describe('CvListComponent', () => {
+  let component: CvListComponent;
+  let fixture: ComponentFixture<CvListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AuthForm]
+      imports: [CvListComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AuthForm);
+    fixture = TestBed.createComponent(CvListComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CvDetail } from './cv-detail';
+import { ImageSliderComponent } from './image-slider.component';
 
-describe('CvDetail', () => {
-  let component: CvDetail;
-  let fixture: ComponentFixture<CvDetail>;
+describe('ImageSliderComponent', () => {
+  let component: ImageSliderComponent;
+  let fixture: ComponentFixture<ImageSliderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CvDetail]
+      imports: [ImageSliderComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CvDetail);
+    fixture = TestBed.createComponent(ImageSliderComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
