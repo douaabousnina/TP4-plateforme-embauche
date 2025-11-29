@@ -1,10 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterModule, ActivatedRoute, RouterLink, Router } from '@angular/router';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CvService } from '../../services/cv/cv.service';
+import { EmbaucheService } from '../../services/embauche/embauche.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { EmbaucheService } from '../../services/embauche/embauche.service';
 
 @Component({
   selector: 'app-cv-detail',
@@ -22,29 +22,37 @@ export class CvDetailComponent {
 
   private cvId = signal<number>(Number(this.route.snapshot.paramMap.get('id')));
 
+  // RxResource to fetch the CV by ID
   public cvResource = rxResource({
     params: () => ({ id: this.cvId() }),
-    stream: () => this.cvService.getCvs().pipe(
-      map(cvs => cvs.find(c => c.id === this.cvId()))
-    )
+    stream: () =>
+      this.cvService.getCvs().pipe(
+        map(cvs => cvs.find(c => c.id === this.cvId()))
+      )
   });
 
-  deleteCv(id: number) {
-    this.cvService.deleteCv(id).subscribe(() => {
-      this.toastr.success('CV supprimé !');
-      this.router.navigate(['/cvs']);
-    });
+  hireCv() {
+    const cv = this.cvResource.value();
+    if (!cv) {
+      this.toastr.error('CV introuvable !');
+      return;
+    }
+
+    this.embaucheService.hire(cv);
+    this.toastr.success(`${cv.firstname} ${cv.name} embauché !`);
+    this.router.navigate(['/embauches']);
   }
 
-  hireCv(id: number) {
-    this.cvService.getCvById(id).subscribe(cv => {
-      if (cv) {
-        this.embaucheService.hire(cv);
-        this.toastr.success(`${cv?.firstname} ${cv?.name} embauché !`);
-        this.router.navigate(['/embauches']);
-      } else {
-        this.toastr.error('CV introuvable, impossible de l\'embaucher !');
-      }
+  deleteCv() {
+    const cv = this.cvResource.value();
+    if (!cv) {
+      this.toastr.error('CV introuvable !');
+      return;
+    }
+
+    this.cvService.deleteCv(cv.id).subscribe(() => {
+      this.toastr.success('CV supprimé !');
+      this.router.navigate(['/cvs']);
     });
   }
 }
