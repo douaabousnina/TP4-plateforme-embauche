@@ -1,1 +1,37 @@
-<p>auth-form.component works!</p>
+<div class="container mt-4">
+    <h3>Authentification</h3>
+
+    <form #authForm="ngForm" (ngSubmit)="submitForm()">
+
+        <!-- EMAIL -->
+        <div class="mb-3">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" required email [(ngModel)]="email"
+                #emailInput="ngModel" [class.is-invalid]="emailInput.invalid && emailInput.touched">
+
+            @if (emailInput.invalid && emailInput.touched) {
+            <div class="text-danger small mt-1">
+                Email invalide.
+            </div>
+            }
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="mb-3">
+            <label>Password</label>
+            <input type="password" name="password" class="form-control" [(ngModel)]="password" #passwordInput="ngModel"
+                required minlength="4" [class.is-invalid]="passwordInput.invalid && passwordInput.touched">
+
+            @if (passwordInput.invalid && passwordInput.touched) {
+            <div class="text-danger small mt-1">
+                Le mot de passe doit contenir au moins 4 caractères.
+            </div>
+            }
+        </div>
+
+        <!-- Button -->
+        <button class="btn btn-primary" type="submit" [disabled]="authForm.invalid">
+            Envoyer
+        </button>
+    </form>
+</div>
