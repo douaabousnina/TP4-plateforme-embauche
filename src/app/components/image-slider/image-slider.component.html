@@ -1,1 +1,8 @@
-<p>image-slider.component works!</p>
+<div class="d-flex justify-content-center mt-4">
+    @if (images.length > 0) {
+    <img [src]="currentImage | async" [style.width.px]="width" [style.height.px]="height"
+        class="img-fluid rounded shadow">
+    } @else {
+    <div>Aucune image a été trouvée.</div>
+    }
+</div>
