@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { ToastrService } from 'ngx-toastr';
-import { RouterModule, RouterLink, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CvService } from '../../services/cv/cv.service';
 import { EmbaucheService } from '../../services/embauche/embauche.service';
 import { Cv } from '../../models/cv.model';
@@ -14,25 +13,14 @@ import { Cv } from '../../models/cv.model';
   styleUrls: ['./cv-list.component.css']
 })
 export class CvListComponent {
-  private cvService = inject(CvService);
-  private embaucheService = inject(EmbaucheService);
-  private toastr = inject(ToastrService);
-  private router = inject(Router);
+  cvService = inject(CvService);
+  embaucheService = inject(EmbaucheService);
 
-  public cvResource = rxResource({
-    params: () => ({}),
+  cvResource = rxResource({
     stream: () => this.cvService.getCvs()
   });
 
   hireCv(cv: Cv) {
-    this.embaucheService.hire(cv).subscribe(success => {
-      if (success) {
-        this.toastr.success(`${cv.firstname} ${cv.name} embauché !`);
-        this.router.navigate(['/embauches']);
-      } else {
-        this.toastr.warning(`${cv.firstname} ${cv.name} est déjà embauché !`);
-      }
-    });
-
+    this.embaucheService.hire(cv);
   }
 }

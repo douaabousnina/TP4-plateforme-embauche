@@ -13,6 +13,6 @@ export class AuthFormComponent {
   password = '';
 
   submitForm() {
-    alert('Formulaire envoyé !');
+    alert('formulaire submitted');
   }
 }

@@ -1,28 +1,25 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Cv } from '../../models/cv.model';
 
 @Injectable({ providedIn: 'root' })
 export class EmbaucheService {
+  private toastr = inject(ToastrService);
+  private router = inject(Router);
   private hired: Cv[] = [];
 
-  hire(cv: Cv): Observable<boolean> {
-    return new Observable<boolean>(subscriber => {
-      const alreadyHired = this.hired.some(c => c.id === cv.id);
-      if (!alreadyHired) {
-        this.hired.push(cv);
-        subscriber.next(true);
-      } else {
-        subscriber.next(false);
-      }
-      subscriber.complete();
-    });
+  hire(cv: Cv) {
+    if (this.hired.some(c => c.id === cv.id)) {
+      this.toastr.warning(`${cv.firstname} ${cv.name} est déjà embauché !`);
+      return;
+    }
+    this.hired.push(cv);
+    this.toastr.success(`${cv.firstname} ${cv.name} embauché !`);
+    this.router.navigate(['/embauches']);
   }
 
-  getHired(): Observable<Cv[]> {
-    return new Observable<Cv[]>(subscriber => {
-      subscriber.next(this.hired);
-      subscriber.complete();
-    });
+  getHired() {
+    return [...this.hired];
   }
 }

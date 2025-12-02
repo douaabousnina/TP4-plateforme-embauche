@@ -14,7 +14,7 @@ export class ImageSliderComponent {
   @Input() images: string[] = DEFAULT_VALUES.DEFAULT_ARRAY_IMAGES;
   @Input() width: number = 300;
   @Input() height: number = 200;
-  @Input() intervalMs: number = 2000;
+  @Input() intervalMs: number = 500;
 
   currentIndex = signal(0);
 
