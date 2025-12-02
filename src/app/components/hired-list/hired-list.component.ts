@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { EmbaucheService } from '../../services/embauche/embauche.service';
+import { Cv } from '../../models/cv.model';
 
 @Component({
   selector: 'app-hired-list',
@@ -9,8 +10,6 @@ import { EmbaucheService } from '../../services/embauche/embauche.service';
 })
 export class HiredListComponent {
   embaucheService = inject(EmbaucheService);
-  
-  get hired() {
-    return this.embaucheService.getHired();
-  }
+
+  hired: Cv[] = this.embaucheService.getHired(); 
 }
